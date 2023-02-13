@@ -14,8 +14,8 @@ Based on tutorial
 * ArgoCD Configuration: [https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/](https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/)
 
 
-MOVED to own: 
-github repo: robheerdink/argocd.git
+MOVED TO OWN REPOS:\ 
+github repo: robheerdink/argocd.git\
 docker repo: https://hub.docker.com/repository/docker/robheerdink
 
 
