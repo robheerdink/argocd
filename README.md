@@ -3,22 +3,24 @@
 Based on tutorial
 * https://www.youtube.com/watch?v=MeU5_k9ssrs
 
-* Config repo: [https://gitlab.com/nanuchi/argocd-app-config](https://gitlab.com/nanuchi/argocd-app-config)
-
-* Docker repo: [https://hub.docker.com/repository/docker/nanajanashia/argocd-app](https://hub.docker.com/repository/docker/nanajanashia/argocd-app)
-
-* Install ArgoCD: [https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd](https://argo-cd.readthedocs.io/en/stable/getting_started/#1-install-argo-cd)
-
-* Login to ArgoCD: [https://argo-cd.readthedocs.io/en/stable/getting_started/#4-login-using-the-cli](https://argo-cd.readthedocs.io/en/stable/getting_started/#4-login-using-the-cli)
-
-* ArgoCD Configuration: [https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/](https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/)
-
-
 Moved to own repos:\
 github repo: robheerdink/argocd.git\
 docker repo: https://hub.docker.com/repository/docker/robheerdink
 
+# Flow
+```
+(mimic CI pipeline)
+- update app and push docker image
+- update deployment.yaml (bump or change image) 
+- push to git
 
+(CD pipeline)
+- argo cd will compare source (git repo) and destination (kubernetes cluster) 
+which are defined in application.yaml and eploy if needed
+```
+
+
+# install argocd in minikube
 ```
 # start minikube
 minikube status
@@ -52,7 +54,6 @@ admin / <pasw<>
 # add the application to argocd 
 # only time we would use kubectl apply, after this everythig should be auto synced)
 kubectl apply -f application.yaml
-
 ```
 
 # change argocd password
