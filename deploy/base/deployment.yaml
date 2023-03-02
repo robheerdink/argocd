@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: robheerdink/example:1.3
+        image: robheerdink/nginx-example:1.3
         ports:
         - containerPort: 8080
