@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/robheerdink/argocd.git
     targetRevision: HEAD
-    path: dev
+    path: deploy/overlays/staging
   destination: 
     server: https://kubernetes.default.svc
     namespace: myapp

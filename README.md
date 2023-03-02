@@ -29,12 +29,10 @@ minikube start
 # check if you on minkube cluster
 kubectx 
 
-# if you dont have kubectx isntalled
-kubectl get overview
+# if you dont have kubectx installed
+kubectl config view
 kctx <cluster>
 kctx minikube
-kctx xcmc
-kctx gke_xite-cms_europe-west1-d_xitecms-gke-eu01
 
 # create ns argocd in cluster and install argocd in cluster
 kubectl create namespace argocd

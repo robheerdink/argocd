@@ -1,0 +1,101 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../base
+patches:
+
+# strategic merge
+# - path: some-file.yaml
+
+
+# inline strategic merge, 
+# - patch: |-
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     metadata:
+#       name: myapp
+#     spec:
+#       replicas: 3
+
+
+# inline JSON6902, requires a target 
+# - patch: |-
+#     - op: replace
+#       path: /spec/replicas
+#       value: 1
+#   target:
+#     kind: Deployment
+#     labelSelector: "app=myapp"
+
+
+# inline JSON6902
+# (target should match outer metadata name and label)
+# - patch: |-
+#     - op: replace
+#       path: /spec/template/spec/containers/0/image
+#       value: eu.gcr.io/xite-cms/apollo-admin-example
+#   target:
+#     kind: Deployment
+#     labelSelector: "app=myapp"
+
+
+# # inline JSON6902
+# # (target should match outer metadata name and label)
+# - patch: |-
+#     - op: replace
+#       path: /spec/template/spec/containers/0/ports/0/containerPort
+#       value: 9999
+#   target:
+#     kind: Deployment
+#     labelSelector: "app=myapp"
+
+
+# similar result with strategic merge
+# replaces the container name app with a different image value
+# - containers is a list, with e.g 2 entries specified below: 
+# - each entry can have multiple key values (name and iamge in this case)
+# - important the first key value (with the -) can be use as a 'merge key'
+# if the 'merge key' value maches, it can place the other key / values
+# if the 'merge key' value does not match, there is no match, it will be added 
+# - patch: |-
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     metadata:
+#       name:  myapp
+#     spec:
+#       template:
+#         spec:
+#           containers:
+#           - name: myapp
+#             image: robheerdink/example:1.2.1
+#           - name: new
+#             image: robheerdink/example:1.5.0
+
+
+# We can not change containerPort value, with a strategic merge
+# We cant use it as 'mergkey', because its used direclty as value
+# in this example below, the containerPort: 9999 will be added to the list
+# similar problem are with merging list are discussed here
+# https://blog.argoproj.io/argo-crds-and-kustomize-the-problem-of-patching-lists-5cfc43da288c
+- patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: myapp
+    spec:
+      template:
+        spec:
+          containers:
+          - name: myapp
+            image: robheerdink/example:1.2
+            ports:
+            - containerPort: 9999
+
+
+# test like this
+# kustomize build base
+# kustomize build overlays/example
+# kustomize build overlays/staging
+# kustomize build overlays/production
+# kubectl apply -k overlays/staging 
+
