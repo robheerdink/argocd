@@ -24,7 +24,8 @@ which are defined in application.yaml and eploy if needed
 ```
 # start minikube
 minikube status
-minikube start
+minikube start -p argocd
+minikube profile list 
 
 # check if you on minkube cluster
 kubectx 
@@ -34,8 +35,16 @@ kubectl config view
 kctx <cluster>
 kctx minikube
 
-# create ns argocd in cluster and install argocd in cluster
+# create ns argocd in cluster 
 kubectl create namespace argocd
+
+# optionally swith to namespace to ommit it in every command
+kubens
+
+# if you dont have kubens installed
+kubectl config set-context –current –namespace=argocd
+
+# install argocd in cluster
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 # check for services in argocd namespace
